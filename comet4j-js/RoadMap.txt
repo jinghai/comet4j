@@ -1,0 +1,19 @@
+Opera下beforeunload没起作用
+Engine增加beforeStart事件?
+Engine增加beforeStop事件?
+ToFix:长连接不能正常接收
+断开原因改为编码表示
+增加异常事件，对异常可以统一处理
+v0.1.7
+修改了在长连接下的重连问题，OK
+解决了Engine在Kiss框架下不触发通道事件问题
+v0.1.6
+修复了引擎无法触发通道事件的问题,OK
+V0.1.5
+修复引擎在连接失败时不能正确触发stop事件的问题,OK
+修复建立连接永不超时问题。OK
+修复IE9,Opera连接断开后无限重连问题,OK
+Engine.start方法增加param参数，OK
+Connector增加错误重试特性，增强网络环境较差情况下的稳定性,OK
+Connector对param的处理bug ,OK
+Connector停止时对未传递参数的bug,OK

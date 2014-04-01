@@ -1,0 +1,155 @@
+<html>
+<head>
+  <title>The source code</title>
+    <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+</head>
+<body  onload="prettyPrint();">
+    <pre class="prettyprint lang-js">/*
+ * Comet4J JavaScript Client V0.1.7
+ * Copyright(c) 2011, jinghai.xiao@gamil.com.
+ * http://code.google.com/p/comet4j/
+ * This code is licensed under BSD license. Use it as you wish, 
+ * but keep this copyright intact.
+ */
+
+<div id="cls-JS.Engine"></div>/**
+ * 消息引擎,
+ * 负责将服务器推�?的�?道数据，以事件的方式触发，事件名称与通道名称相同�?
+ * @class JS.Engine
+ * @singleton 
+ * @extends JS.Observable
+ * @author jinghai.xiao@gmail.com
+ */
+JS.ns("JS.Engine");
+JS.Engine = (function(){
+	var Engine = JS.extend(JS.Observable,{
+		lStore : [],//用于存放没启动状态下用户增加的侦�?
+		<div id="prop-JS.Engine-running"></div>/** 
+		 * 引擎是否处于工作状�?
+		 * @property 
+		 * @type Boolean
+		 */ 
+		running : false,
+		<div id="prop-JS.Engine-connector"></div>/** 
+		 * 引擎�?��用的连接�?
+		 * @property 
+		 * @type JS.Connector
+		 */ 
+		connector : null,
+		constructor:function(){
+			this.addEvents([
+				<div id="event-JS.Engine-start"></div>/**
+				 * @event start �?��事件
+				 * @param {String} cId 连接ID
+				 * @param {Array<String>} channels 通道列表
+				 * @param {JS.Engine} engine 事件引擎
+				 */   
+				'start',
+				<div id="event-JS.Engine-stop"></div>/*** 
+				 * @event stop 停止事件
+				 * @param {String} cause 停止原因
+				 * @param {String} cId 连接ID
+				 * @param {String} url 连接地址
+				 * @param {JS.Engine} engine 事件引擎
+				 */
+				'stop'
+			]);
+			Engine.superclass.constructor.apply(this,arguments);
+			this.connector = new JS.Connector();
+			this.initEvent();
+		},
+		<div id="method-JS.Engine-on"></div>/**
+		 * 注册通道侦听
+		 * @method on
+		 * @param {String | Map<String,Function>} channelName 通道名称或多个�?道名称和侦听函数的键值对
+		 * @param {Function} fn 侦听函数
+		 * @param {Object} scope 侦听函数作用�?
+		 */
+		//重载addListener函数
+		addListener : function(eventName, fn, scope, o){
+			if(this.running){
+				Engine.superclass.addListener.apply(this,arguments);
+			}else{
+				this.lStore.push({
+					eventName : eventName,
+					fn : fn,
+					scope : scope,
+					o : o
+				});
+			}
+		},
+		//private 
+		initEvent : function(){
+			var self = this;
+			this.connector.on({
+				connect : function(cId, aml, conn){
+					//self.running = true;
+					self.addEvents(aml);
+					for(var i=0,len=self.lStore.length; i<len; i++){
+						var e = self.lStore[i];
+						self.addListener(e.eventName,e.fn,e.scope);
+					}
+					self.fireEvent('start', cId, aml, self);
+				},
+				stop : function(cause, cId, url, conn){
+					self.running = false;
+					self.fireEvent('stop',cause, cId,url, self);
+					self.clearListeners();
+				},
+				message : function(amk, data, time){
+					self.fireEvent(amk, data, time, self);
+				}
+			});
+		},
+		<div id="method-JS.Engine-start"></div>/**
+		 * �?��连接
+		 * @method 
+		 * @param {String} url 连接地址
+		 * @param {String} param 连接参数
+		 */
+		start : function(url,param){
+			this.running = true;
+			/*
+			if(this.running){
+				return;
+			}*/
+			for(var i=0,len=this.lStore.length; i<len; i++){
+				var e = this.lStore[i];
+				this.addListener(e.eventName,e.fn,e.scope);
+			}
+			this.connector.start(url,param);
+		},
+		<div id="method-JS.Engine-stop"></div>/**
+		 * 停止连接
+		 * @method 
+		 * @param {String} cause 停止原因
+		 */
+		stop : function(cause){
+			if(!this.running){
+				return;
+			}
+			this.connector.stop(cause);
+		},
+		<div id="method-JS.Engine-getConnector"></div>/**
+		 * 获得连接器实�?
+		 * @method 
+		 * @return {JS.Connector} connector 连接器实�?
+		 */
+		getConnector : function(){
+			return this.connector;
+		},
+		<div id="method-JS.Engine-getId"></div>/**
+		 * 获得连接ID
+		 * @method 
+		 * @return {String} 连接ID
+		 */
+		getId : function(){
+			return this.connector.cId;
+		}
+		
+	});
+	return new Engine();
+}());</pre>    
+</body>
+</html>

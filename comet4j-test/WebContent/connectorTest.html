@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>连接器测试</title>
+
+<script type="text/javascript" src="js/comet4j-0.1.7.js?t=0.0"></script>
+
+
+
+
+<script type="text/javascript">
+        	var serverUrl = 'conn';
+        	var connector;
+        	function init(){
+        		connector = new JS.Connector({
+    				url :serverUrl
+    			});
+        		connector.on({
+    				beforeConnect : function(url, conn){
+    					var str = '[beforeConnect] :'+new Date().toLocaleString()+'----<br>'+
+    							'url :'+url+'<br>'+
+    							'--------<br>';
+    					log('Engine_log',str);
+    				},
+    				connect : function(cId, channels, ws, timeout, conn){
+    					
+    					var str = '[connect] :'+new Date().toLocaleString()+'----<br>'+
+    							'cId :'+cId+'<br>'+
+    							'channels :'+channels+'<br>'+
+    							'ws :'+ws+'<br>'+
+    							'timeout :'+timeout+'<br>'+
+    							'--------<br>';
+    					//alert(str);
+    					log('Engine_log',str);
+
+    				},
+    				beforeStop : function(cId, url,  conn){
+    					var str = '[beforeStop] :'+new Date().toLocaleString()+'----<br>'+
+    							'url :'+url+'<br>'+
+    							'cid :'+cId+'<br>'+
+    							'--------<br>';
+    					log('Engine_log',str);
+
+    				},
+    				stop : function(cause,cId, url, conn){
+    					var str = '[stop] :'+new Date().toLocaleString()+'----<br>'+
+    							'url :'+url+'<br>'+
+    							'cid :'+cId+'<br>'+
+    							'cause :'+cause+'<br>'+
+    							'--------<br>';
+    					log('Engine_log',str);
+
+    				},
+    				message : function(channel, data, time, conn){
+    					var str = '[message] :'+new Date().toLocaleString()+'----<br>'+
+    							'channel :'+channel+'<br>'+
+    							'data :'+data+'<br>'+
+    							'time :'+time+'<br>'+
+    							'--------<br>';
+    					log('Engine_log',str);
+
+    				},
+    				revival : function(url, cId, conn){
+    					var str = '[revival] :'+new Date().toLocaleString()+'----<br>'+
+    							'cId :'+cId+'<br>'+
+    							'--------<br>';
+    					log('Engine_log',str);
+    				}
+
+    			});
+    			connector._xhr.on({
+    				readyStateChange : function(readyState,status,xhr){
+    					var str = '[readyStateChange] :'+new Date().toLocaleString()+'----<br>'+
+    					'readyState：'+readyState+'<br>'+
+						'status：'+status+'<br>'+
+						'responseText：'+xhr.responseText+'<br>'+
+						'--------<br>';
+    					log('XMLHttpRequest_log',str);
+    				},
+    				timeout : function(conn){
+    					var str = '[timeout] :'+new Date().toLocaleString()+'----<br>'+
+    					'readyState：'+conn.readyState+'<br>'+
+						'status：'+conn.status+'<br>'+
+						'responseText：'+conn.responseText+'<br>'+
+    					'--------<br>';
+    					log('XMLHttpRequest_log',str);
+    				},
+    				abort : function(conn){
+    					var str = '[abort] :'+new Date().toLocaleString()+'----<br>'+
+    					'readyState：'+conn.readyState+'<br>'+
+						'status：'+conn.status+'<br>'+
+						'responseText：'+conn.responseText+'<br>'+
+    					'--------<br>';
+    					log('XMLHttpRequest_log',str);
+    				},
+    				error : function(conn){
+    					var str = '[error] :'+new Date().toLocaleString()+'----<br>'+
+    					'readyState：'+conn.readyState+'<br>'+
+						'status：'+conn.status+'<br>'+
+						'responseText：'+conn.responseText+'<br>'+
+    					'--------<br>';
+    					log('XMLHttpRequest_log',str);
+    				},
+    				load : function(conn){
+    					var str = '[load] :'+new Date().toLocaleString()+'----<br>'+
+    					'readyState：'+conn.readyState+'<br>'+
+						'status：'+conn.status+'<br>'+
+						'responseText：'+conn.responseText+'<br>'+
+    					'--------<br>';
+    					log('XMLHttpRequest_log',str);
+    				},
+    				progress : function(conn){
+    					var str = '[progress] :'+new Date().toLocaleString()+'----<br>'+
+    					'readyState：'+conn.readyState+'<br>'+
+						'status：'+conn.status+'<br>'+
+						'responseText：'+conn.responseText+'<br>'+
+    					'--------<br>';
+    					log('XMLHttpRequest_log',str);
+    				}
+    			});
+    			conn();
+            }
+			
+			function log(id,str){
+				if(JS.isIE6 && id == 'Engine_log'){
+					return;
+				}
+				var t = document.getElementById(id).innerHTML;
+				document.getElementById(id).innerHTML += str;
+				document.getElementById(id).scrollTop = document.getElementById(id).scrollHeight;
+			}
+			
+			
+			function conn(){
+				connector.start();
+			}
+			function stop(){
+				connector.stop('客户主动停止');
+			}	
+			function cl(){
+				document.getElementById('XMLHttpRequest_log').innerHTML = '';		
+				document.getElementById('Engine_log').innerHTML = '';
+
+			}		
+			function sstop(){
+				connector._xhr.abort();
+			}
+            //JS.EventEngine.start(serverUrl + '?action=conn');
+        </script>
+</head>
+<body onload="init()">
+
+	<table style="width: 100%">
+		<tr>
+			<td style="width: 50%;">连接器测试</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td style="" colspan="2">&nbsp; <input name="Reset2"
+				type="button" onclick="conn();" value="连接" /> <input name="Reset3"
+				type="button" onclick="stop();" value="断开" /> <input name="Reset4"
+				type="button" onclick="cl();" value="清空" /> <input name="Reset3"
+				type="button" onclick="sstop();" value="强力断开" /></td>
+		</tr>
+		<tr>
+			<td colspan="2">XMLHttpRequest onReadyStateChange Event ：<br />
+				<div id="XMLHttpRequest_log"
+					style="width: 100%; height: 200px; overflow: auto; border: 1px navy solid;"></div>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">Connector Events ：</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<div id="Engine_log"
+					style="width: 100%; height: 200px; overflow: auto; border: 1px navy solid;"></div>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">测试指导：<br /> [1].测试无信息接收连接的状态是否稳定。<br />
+				[2].测试有信息接收连接的状态是否稳定。<br /> [3].正在连接时断开连接，尝试是否可以再次连接。<br />
+				[4].正在连接时服务器突然停止，连接是否会自动停止。<br/> </td>
+		</tr>
+	</table>
+
+</body>
+</html>

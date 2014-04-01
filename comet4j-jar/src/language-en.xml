@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<comment></comment>
+	<entry key="ConnectSuccess"><![CDATA[Successful connection]]></entry>
+	<entry key="ConnectFailure"><![CDATA[Connection Failure]]></entry>
+	<entry key="InitComplete"><![CDATA[Initialization completely]]></entry>
+	<entry key="DoubleAppModuleKey"><![CDATA[Double Application Module Key]]></entry>
+</properties>

@@ -1,0 +1,52 @@
+div{
+scrollbar-3dlight-color:aqua;
+scrollbar-highlight-color:aqua;
+scrollbar-face-color:black;
+scrollbar-arrow-color:aqua;
+scrollbar-shadow-color:aqua;
+scrollbar-darkshadow-color:black; 
+scrollbar-base-color:black;
+scrollbar-track-color:black;
+}
+body{
+color: aqua; background-color: #000000;margin:0px;padding:0px;overflow:hidden;height:100%;overflow-x:hidden; overflow-y:hidden;
+}
+a {
+color:orange;
+}
+blockquote{
+line-height:20px;
+}
+#logbox{
+width:100%;overflow:auto;overflow-x: hidden; overflow-y: auto;word-break: break-all;
+}
+#statebar{
+border-bottom:1px aqua solid;vertical-align:middle;line-height:30px;color:aqua;text-align:center;
+}
+#toolbar{
+position:absolute;z-index:2;width:100%;padding-top:4px;padding-bottom:4px;bottom:0px; border-top:1px aqua solid;background:black;color:#00FFFF;
+}
+#login{
+display:none;position:absolute;left:0px;top:0px;width:100%;z-index:100;background:black;
+}
+.user{
+color:aqua;
+}
+.sysmessage{
+color: #666666;
+}
+.usermessage{
+color:silver;
+}
+.usermessage blockquote{
+margin:0px;margin-left:50px;padding:0px;
+}
+.inputbox{
+margin-bottom:4px;color:white;background:transparent;font-size:25px;vertical-align:middle;line-height:25px;height:30px;width:80%;left:1px;right:50px;top:0px;border:0px;border-bottom:1px aqua solid;
+}
+.button{
+margin-top:20px;border:1px aqua solid;color:white;background:transparent;vertical-align:middle;line-height:25px;height:30px;
+}
+.warning {
+color:red;
+}

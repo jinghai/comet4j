@@ -1,0 +1,332 @@
+<html>
+<head>
+  <title>The source code</title>
+    <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+</head>
+<body  onload="prettyPrint();">
+    <pre class="prettyprint lang-js">/*
+ * Comet4J JavaScript Client V0.1.7
+ * Copyright(c) 2011, jinghai.xiao@gamil.com.
+ * http://code.google.com/p/comet4j/
+ * This code is licensed under BSD license. Use it as you wish, 
+ * but keep this copyright intact.
+ */
+
+<div id="cls-JS.Observable"></div>/**
+ * @class JS.Observable
+ * 事件模型
+ * @author jinghai.xiao@gmail.com
+ */
+JS.ns("JS.Observable");
+JS.Observable = function(o){
+	JS.apply(this,o || JS.toArray(arguments)[0]);
+	if(this.events){
+		this.addEvents(this.events);
+	}
+    if(this.listeners){
+        this.on(this.listeners);
+        delete this.listeners;
+    }
+};
+JS.Observable.prototype = {
+	<div id="method-JS.Observable-on"></div>/**
+	 * 添加侦听
+	 * @method 
+	 * @param {String | Map<String|Function>} channelName 事件名称或多个事件名称和侦听函数的键值对
+	 * @param {Function} fn 侦听函数
+	 * @param {Object} scope 侦听函数作用�?	 */
+	on : function(eventName, fn, scope, o){
+		if(JS.isString(eventName)){
+			this.addListener(eventName, fn, scope, o);
+		}else if(JS.isObject(eventName)){
+			this.addListeners(eventName,scope, o);
+		}
+	},
+	<div id="method-JS.Observable-fireEvent"></div>/**
+	 * 触发事件
+	 * @method 
+	 * @param {String} eventName 事件名称
+	 * @param {[AnyType0~n...]} eventParam 事件参数，可以是0到N�?	 * @return {Boolean}
+	 */
+	fireEvent : function(){
+		var arg = JS.toArray(arguments),
+		    eventName = arg[0].toLowerCase(),
+			e = this.events[eventName];
+		if(e && !JS.isBoolean(e)){
+			return e.fire.apply(e,arg.slice(1));
+		}
+	},
+	<div id="method-JS.Observable-addEvent"></div>/**
+	 * 注册事件类型
+	 * @method 
+	 * @param {String} eventName 事件名称
+	 */
+	addEvent : function(eventName){
+		if(!JS.isObject(this.events)){
+			this.events = {};
+		}
+		if(this.events[eventName]){
+			return;
+		}
+		if(JS.isString(eventName)){
+			this.events[eventName.toLowerCase()] = true;
+		}else if(eventName instanceof JS.Event){
+			this.events[eventName.name.toLowerCase()] = eventName;
+		}
+	},
+	<div id="method-JS.Observable-addEvents"></div>/**
+	 * 批量注册事件类型
+	 * @method 
+	 * @param {Array<String>} eventNames 事件名称
+	 */
+	addEvents : function(arr){
+		if(JS.isArray(arr)){
+			for(var i = 0,len = arr.length; i < len; i++){
+				this.addEvent(arr[i]);
+			}
+		}
+	},
+	<div id="method-JS.Observable-addListener"></div>/**
+	 * 注册事件侦听
+	 * @method 
+	 * @param {String} eventName 事件名称
+	 * @param {Function} fn 侦听函数
+	 * @param {Object} scope 侦听函数作用�?	 */
+	addListener : function(eventName, fn, scope, o){//o配置项尚未实�?		eventName = eventName.toLowerCase();
+		this.addEvent(eventName);
+		var e = this.events[eventName];
+		if(e){
+			if(JS.isBoolean(e)){
+				e = this.events[eventName] = new JS.Event(eventName,this);
+			}
+			e.addListener(fn, scope , o);
+		}
+	},
+	<div id="method-JS.Observable-addListeners"></div>/**
+	 * 批量注册事件侦听
+	 * @method 
+	 * @param {Map<String,Function>} eventMap 事件名称与侦听函数的键�?�?	 * @param {Function} fn 侦听函数
+	 * @param {Object} scope 侦听函数作用�?	 */
+	addListeners : function(obj,scope, o){
+		if(JS.isObject(obj)){
+			for(var p in obj){
+				this.addListener(p,obj[p],scope, o);
+			}
+		}
+	},
+	<div id="method-JS.Observable-removeListener"></div>/**
+	 * 移除事件侦听
+	 * @method 
+	 * @param {String} eventName 事件名称
+	 * @param {Function} fn 侦听函数
+	 * @param {Object} scope 侦听函数作用�?	 */
+	removeListener : function(eventName, fn, scope){
+		eventName = eventName.toLowerCase();
+		var e = this.events[eventName];
+		if(e && !JS.isBoolean(e)){
+			e.removeListener(fn, scope);
+		}
+	},
+	<div id="method-JS.Observable-clearListeners"></div>/**
+	 * 移除�?��事件侦听
+	 * @method 
+	 */
+	clearListeners : function(){
+		var events = this.events,
+			e;
+		for(var p in events){
+			e = events[p];
+			if(!JS.isBoolean(e)){
+				e.clearListeners();
+			}
+		}
+	},
+	<div id="method-JS.Observable-clearEvents"></div>/**
+	 * 移除�?��事件类型及事件侦�?	 * @method 
+	 */
+	clearEvents : function(){
+		var events = this.events;
+		this.clearListeners();
+		for(var p in events){
+			this.removeEvent(p);
+		}
+	},
+	<div id="method-JS.Observable-removeEvent"></div>/**
+	 * 移除事件类型
+	 * @method 
+	 * @param {String} eventName 事件类型名称
+	 */
+	removeEvent : function(eventName){
+		var events = this.events,
+			e;
+		if(events[eventName]){
+			e = events[eventName];
+			if(!JS.isBoolean(e)){
+				e.clearListeners();
+			}
+			delete events[eventName];
+		}
+		
+	},
+	<div id="method-JS.Observable-removeEvents"></div>/**
+	 * 批量移除事件类型
+	 * @method 
+	 * @param {Array<String>} 事件类型名称列表
+	 */
+	removeEvents : function(eventName){
+		if(JS.isString(eventName)){
+			this.removeEvent(eventName);
+		}else if(JS.isArray(eventName) && eventName.length > 0){
+			for(var i=0, len=eventName.length; i<len ;i++){
+				this.removeEvent(eventName[i]);
+			}
+		}
+	},
+	<div id="method-JS.Observable-hasEvent"></div>/**
+	 * �?��是否具有指定的事件类�?	 * @method 
+	 * @param {String} 事件类型名称
+	 */
+	hasEvent : function(eventName){
+		return this.events[eventName.toLowerCase()]?true:false;
+	},
+	<div id="method-JS.Observable-hasListener"></div>/**
+	 * �?��是否具有指定的事件侦�?	 * @method 
+	 * @param {String} 事件类型名称
+	 * @param {Function} fn 侦听函数
+	 * @param {Object} scope 侦听函数作用�?	 */
+	hasListener : function(eventName,fn,scope){
+		var events = this.events,
+			e = events[eventName];
+		if(!JS.isBoolean(e)){
+			return e.hasListener(fn,scope);
+		}
+		return false;
+	},
+	suspendEvents : function(){
+		//TODO:
+	},
+	resumeEvents : function(){
+		//TODO:
+	}
+};
+<div id="cls-JS.Event"></div>/**
+ * 事件源，代表�?��事件，负责管理事件侦�? * @class JS.Event
+ * @author jinghai.xiao@gmail.com
+ */
+JS.Event = function(name,caller){
+	this.name = name.toLowerCase();
+	this.caller = caller;
+	this.listeners = [];
+};
+JS.Event.prototype = {
+	<div id="method-JS.Event-fire"></div>/**
+	 * @method
+	 * @return {Boolean}
+	 */
+	fire : function(){
+		var 
+			listeners = this.listeners,
+			//len = listeners.length,
+			i = listeners.length-1;
+		for(; i > -1; i--){//TODO:fix 倒序
+			if(listeners[i].execute.apply(listeners[i],arguments) === false){
+				return false;
+			}
+		}
+		return true;
+	},
+	<div id="method-JS.Event-addListener"></div>/**
+	 * @method
+	 * @param {Function} fn
+	 * @param {Object} scope
+	 */
+	addListener : function(fn, scope,o){
+        scope = scope || this.caller;
+        if(this.hasListener(fn, scope) == -1){
+            this.listeners.push(new JS.Listener(fn, scope ,o));
+        }
+    },
+    <div id="method-JS.Event-removeListener"></div>/**
+     * 
+     * @method
+     * @param {Function} fn
+     * @param {Object} scope
+     */
+	removeListener : function(fn, scope){
+        var index = this.hasListener(fn, scope);
+		if(index!=-1){
+			this.listeners.splice(index, 1);
+		}
+    },
+    <div id="method-JS.Event-hasListener"></div>/**
+     * 
+     * @method
+     * @param {Function} fn
+     * @param {Object} scope
+     */
+	hasListener : function(fn, scope){
+		var i = 0,
+			listeners = this.listeners,
+			len = listeners.length;
+		for(; i<len; i++){
+			if(listeners[i].equal(fn, scope)){
+				return i;
+			}
+		}
+		return -1;
+	},
+	 <div id="method-JS.Event-clearListeners"></div>/**
+     * 
+     * @method
+     */
+	clearListeners : function(){
+		var i = 0,
+			listeners = this.listeners,
+			len = listeners.length;
+		for(; i<len; i++){
+			listeners[i].clear();
+		}
+		this.listeners.splice(0);
+	}
+
+};
+<div id="cls-JS.Listener"></div>/**
+ * 事件侦听器，包装并统�?��听的调用方式
+ * @class JS.Listener
+ * @author jinghai.xiao@gmail.com
+ */
+JS.Listener = function(fn, scope,o){
+	this.handler = fn;
+	this.scope = scope;
+	this.o = o;//配置项，delay,buffer,once,
+};
+JS.Listener.prototype = {
+	<div id="method-JS.Listener-execute"></div>/**
+     * 
+     * @method
+     * @return {Boolean}
+     */
+	execute : function(){
+		return JS.callBack(this.handler,this.scope,arguments);
+	},
+	<div id="method-JS.Listener-equal"></div>/**
+     * 
+     * @method
+     * @return {Boolean}
+     */
+	equal : function(fn, scope){
+		return this.handler === fn /*&& this.scope === scope*/ ? true : false;
+	},
+	<div id="method-JS.Listener-clear"></div>/**
+     * 
+     * @method
+     */
+	clear : function(){
+		delete this.handler;
+		delete this.scope ;
+		delete this.o ;
+	}
+};</pre>    
+</body>
+</html>

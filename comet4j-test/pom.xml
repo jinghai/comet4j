@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<name>Comet4j-Test</name>
+	<groupId>org.comet4j</groupId>
+	<artifactId>comet4j-test</artifactId>
+	<version>0.1.7</version>
+	<!-- <version>0.1.1-SNAPSHOT</version> -->
+	<packaging>war</packaging>
+	<build>
+		<!-- 设定Web应用中编译结果输出到WEB-INF/classes 中，与使用IDE时相同 -->
+		<!-- <outputDirectory>/target/WebContent/webapp/WEB-INF/classes</outputDirectory> -->
+		<sourceDirectory>src</sourceDirectory>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+			<plugin>            
+			  <groupId>org.apache.maven.plugins</groupId>
+			  <artifactId>maven-war-plugin</artifactId>
+			  <configuration>
+			  	<warSourceDirectory>WebContent</warSourceDirectory>
+			  </configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<properties>
+		<!-- 定义一些属性 -->
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.comet4j</groupId>
+			<artifactId>comet4j</artifactId>
+			<version>0.1.7</version>
+		</dependency>
+		 <dependency>
+	      <groupId>javax.servlet</groupId>
+	      <artifactId>servlet-api</artifactId>
+	      <version>2.5</version>
+	      <scope>provided</scope>
+	    </dependency>
+	</dependencies>
+</project>

@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:v="urn:schemas-microsoft-com:vml"
+	xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>消息引擎测试</title>
+
+<script type="text/javascript" src="js/comet4j-0.1.7.js?t=0.0"></script>
+
+
+
+<script type="text/javascript">
+        	
+        	function init(){
+        		
+        		JS.Engine.on({
+        			start : function(cId,channels, engine){
+        				var str = '[start]:<br>'+
+    					'cId:'+cId+'<br>'+
+    					'channels:'+channels+'<br>';
+    					log('Engine_log',str);
+    					engine.addListener('sender',function(){
+    						log('Engine_log',"start事件后加事件<br>");
+    					})
+        			},
+        			emonitor : function(data, time, engine){
+        				
+        			},
+        			rmonitor : function(data, time, engine){
+        				
+        			},
+        			sender : function(data, time, engine){
+        				var str = '[sender]:<br>'+
+    					'data:'+data+'<br>'+
+    					'time:'+new Date(time).toLocaleString()+'<br>';
+        				log('Engine_log',str);
+        			},
+        			talker : function(data, time, engine){
+        				var str = '[talker]:<br>'+
+    					'data:'+data+'<br>'+
+    					'time:'+new Date(time).toLocaleString()+'<br>';
+        				log('Engine_log',str);
+        			},
+        			stop : function(cause, cId, url, engine){
+        				var str = '[stop]:<br>'+
+    					'url:'+url+'<br>'+
+    					'cId:'+cId+'<br>'+
+    					'cause:'+cause+'<br>';
+        				log('Engine_log',str);
+        			}
+        		});
+        		st();
+        		JS.Engine.addListener('sender',function(){
+					log('Engine_log',"start方法后加事件<br>");
+				})
+        	}	
+        	function log(id,str){
+				var t = document.getElementById(id).innerHTML;
+				document.getElementById(id).innerHTML += str;
+				document.getElementById(id).scrollTop = document.getElementById(id).scrollHeight;
+			}
+        	function st(){
+        		JS.Engine.start('conn');
+        	}
+        	
+        	function stop(){
+        		JS.Engine.stop('客户主动停止');
+        	}
+        	
+        	function cls(){
+        		document.getElementById('Engine_log').innerHTML = '';
+        	}
+
+        </script>
+</head>
+<body onload="init()">
+
+	<table style="width: 100%">
+		<tr>
+			<td style="width: 50%;">消息引擎</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td style="" colspan="2">&nbsp; <input name="Reset2"
+				type="button" onclick="st();" value="开始" /> <input name="Reset3"
+				type="button" onclick="stop();" value="停止" /> <input name="Reset4"
+				type="button" onclick="cls();" value="清空" />
+			</td>
+		</tr>
+
+		<tr>
+			<td colspan="2">JS.Engine Events ：</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<div id="Engine_log"
+					style="width: 100%; height: 550px; overflow: auto; border: 1px navy solid;"></div>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">测试指导：</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+		</tr>
+	</table>
+
+</body>
+</html>

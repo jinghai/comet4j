@@ -1,0 +1,13 @@
+V0.1.1
+新增：
+窗体失去焦点下的新信息数量提示功能。
+与Google、sina、163等OpenId集成
+AirChat客户端Demo
+文件上传插件
+
+文档:
+相关已有文档的更新wiki,cdoc,sdoc
+Comet4J介绍（WEB即时通讯） 
+Comet4J Chat实例解析	
+Comet4J与Spring应用整合
+Comet4J分布式架构建议

@@ -1,0 +1,7 @@
+--------Event模型 V0.0.2[2010.03.12]--------
+改进：
+Listenner接口改为Listenner类，这样使用内部匿名类的方式增加事件侦听就变得更为方便
+事件名称由直接常量改为事件类型，事件与侦听类型通过泛型指定，使语法更为严禁
+事件中增加了stopEvent、preventDefault、处理，帮助使用者更灵活的控制事件侦听的执行
+Event中增加target属性，方便获取事件的发出者
+Observable增加suspendEvents与resumeEvents方法，用于暂停或恢复事件广播

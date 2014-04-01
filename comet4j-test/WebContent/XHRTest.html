@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>JS.XMLHttpRequest测试</title>
+
+<script type="text/javascript" src="js/comet4j-0.1.7.js"></script>
+
+
+
+
+<script type="text/javascript">
+        	var xhr;
+        	function init(){
+        		xhr = new JS.XMLHttpRequest();
+        		xhr.on({
+    				readyStateChange : function(readyState,status,xhr){
+    					var str = '[readyStateChange] :'+new Date().toLocaleString()+'----<br//>'+
+    					'readyState：'+readyState+'<br//>'+
+						'status：'+status+'<br//>'+
+						'responseText：'+xhr.responseText+'<br/>'+
+						'--------<br/>';
+    					log('XMLHttpRequest_log',str);
+    				},
+    				timeout : function(conn){
+    					var str = '[timeout] :'+new Date().toLocaleString()+'----<br/>'+
+    					'readyState：'+conn.readyState+'<br/>'+
+						'status：'+conn.status+'<br/>'+
+						'responseText：'+conn.responseText+'<br/>'+
+    					'--------<br/>';
+    					log('XMLHttpRequest_log',str);
+    				},
+    				abort : function(conn){
+    					var str = '[abort] :'+new Date().toLocaleString()+'----<br/>'+
+    					'readyState：'+conn.readyState+'<br/>'+
+						'status：'+conn.status+'<br/>'+
+						'responseText：'+conn.responseText+'<br/>'+
+    					'--------<br/>';
+    					log('XMLHttpRequest_log',str);
+    				},
+    				error : function(conn){
+    					var str = '[error] :'+new Date().toLocaleString()+'----<br/>'+
+    					'readyState：'+conn.readyState+'<br/>'+
+						'status：'+conn.status+'<br/>'+
+						'responseText：'+conn.responseText+'<br/>'+
+    					'--------<br/>';
+    					log('XMLHttpRequest_log',str);
+    				},
+    				load : function(conn){
+    					var str = '[load] :'+new Date().toLocaleString()+'----<br/>'+
+    					'readyState：'+conn.readyState+'<br/>'+
+						'status：'+conn.status+'<br/>'+
+						'responseText：'+conn.responseText+'<br/>'+
+    					'--------<br/>';
+    					log('XMLHttpRequest_log',str);
+    				},
+    				progress : function(conn){
+    					var str = '[progress] :'+new Date().toLocaleString()+'----<br/>'+
+    					'readyState：'+conn.readyState+'<br/>'+
+						'status：'+conn.status+'<br/>'+
+						'responseText：'+conn.responseText+'<br/>'+
+    					'--------<br/>';
+    					log('XMLHttpRequest_log',str);
+    				}
+    			});
+    			conn();
+            }
+			
+			function log(id,str){
+				var t = document.getElementById(id).innerHTML;
+				document.getElementById(id).innerHTML += str;
+				document.getElementById(id).scrollTop = document.getElementById(id).scrollHeight;
+			}
+			
+			
+			function conn(){
+				var url = 'conn?cmd=conn';
+				xhr.open('GET', url, true);
+				xhr.send(null);
+			}
+			function stop(){
+				xhr.abort();
+			}	
+			function cl(){
+				document.getElementById('XMLHttpRequest_log').innerHTML = '';		
+
+			}		
+            //JS.EventEngine.start(serverUrl + '?action=conn');
+        </script>
+</head>
+<body onload="init()">
+
+	<table style="width: 100%">
+		<tr>
+			<td style="width: 50%;">连接器测试</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td style="" colspan="2">&nbsp; <input name="Reset2"
+				type="button" onclick="conn();" value="连接" /> <input name="Reset3"
+				type="button" onclick="stop();" value="断开" /> <input name="Reset4"
+				type="button" onclick="cl();" value="清空" /> 
+				</td>
+		</tr>
+		<tr>
+			<td colspan="2">XMLHttpRequest onReadyStateChange Event ：<br/>
+				<div id="XMLHttpRequest_log"
+					style="width: 100%; height: 200px; overflow: auto; border: 1px navy solid;"></div>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">Connector Events ：</td>
+		</tr>
+		<tr>
+			<td colspan="2">测试指导：<br/> </td>
+		</tr>
+	</table>
+
+</body>
+</html>

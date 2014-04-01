@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="WebApp_ID" version="2.5">
+	<display-name>Comet4J Test</display-name>
+	<welcome-file-list>
+		<welcome-file>talk.html</welcome-file>
+	</welcome-file-list>
+	<mime-mapping>
+		<extension>air</extension>
+		<mime-type>application/air</mime-type>
+	</mime-mapping>
+	<filter>
+		<description>编码过滤</description>
+		<filter-name>encodingfilter</filter-name>
+		<filter-class>org.comet4j.core.util.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>utf-8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodingfilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+
+	<!-- 性能监控 http://localhost:8080/monitoring -->
+	<filter>
+		<filter-name>monitoring</filter-name>
+		<filter-class>net.bull.javamelody.MonitoringFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>monitoring</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<listener>
+		<listener-class>net.bull.javamelody.SessionListener</listener-class>
+	</listener>
+
+
+	<!--Comet配置 -->
+	<listener>
+		<description>应用程序事件监听</description>
+		<listener-class>org.comet4j.core.CometAppListener</listener-class>
+	</listener>
+	<servlet>
+		<description>Comet连接[默认:org.comet4j.core.CometServletTomcat7]</description>
+		<display-name>CometServlet</display-name>
+		<servlet-name>CometServlet</servlet-name>
+		<servlet-class>org.comet4j.core.CometServletTomcat7</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CometServlet</servlet-name>
+		<url-pattern>/conn</url-pattern>
+	</servlet-mapping>
+	<!-- Comet配置可选参数配置-->
+	<context-param>
+		<description>语言[目前只支持：zh,en两种,默认:zh，详细http://www.loc.gov/standards/iso639-2/php/English_list.php]</description>
+		<param-name>Comet.Language</param-name>
+		<param-value>zh</param-value>
+	</context-param>
+	<context-param>
+		<description>请求超时时间/微妙[默认:60000,1分钟,建议最小设置3秒]</description>
+		<param-name>Comet.Timeout</param-name>
+		<param-value>5000</param-value>
+	</context-param>
+	<context-param>
+		<description>连接空闲过期时间/微妙[默认:60000,1分钟]</description>
+		<param-name>Comet.ConnExpires</param-name>
+		<param-value>5000</param-value>
+	</context-param>
+	<context-param>
+		<description>连接检查频率/微妙[默认:60000,1分钟]</description>
+		<param-name>Comet.ConnFrequency</param-name>
+		<param-value>5000</param-value>
+	</context-param>
+	<context-param>
+		<description>缓存信息过期时间/微妙[默认:3600000,1小时]</description>
+		<param-name>Comet.CacheExpires</param-name>
+		<param-value>3600000</param-value>
+	</context-param>
+	<context-param>
+		<description>缓存信息过期检查频率/微妙[默认:3600000,1小时]</description>
+		<param-name>Comet.CacheFrequency</param-name>
+		<param-value>5000</param-value>
+	</context-param>
+	<context-param>
+		<description>连接模式[auto(默认)/stream/lpool]</description>
+		<param-name>Comet.WorkStyle</param-name>
+		<param-value>auto</param-value>
+	</context-param>
+	<context-param>
+		<description>开启调试[false(默认)/true]</description>
+		<param-name>Comet.Debug</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	 
+
+	<!--配置comet应用扩展-->
+	<listener>
+		<description>信息发送器</description>
+		<listener-class>org.comet4j.demo.sender.AppInit</listener-class>
+	</listener>
+	
+	<listener>
+		<description>请求监视</description>
+		<listener-class>org.comet4j.demo.requestmonitor.AppInit</listener-class>
+	</listener>
+	<listener>
+		<description>事件监视</description>
+		<listener-class>org.comet4j.demo.eventmonitor.AppInit</listener-class>
+	</listener>
+ 	
+
+</web-app>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<comment></comment>
+	<entry key="ConnectSuccess"><![CDATA[连接成功]]></entry>
+	<entry key="ConnectFailure"><![CDATA[连接失败]]></entry>
+	<entry key="InitComplete"><![CDATA[初始化完毕]]></entry>
+	<entry key="DoubleAppModuleKey"><![CDATA[重复的应用模块标识。]]></entry>
+</properties>
