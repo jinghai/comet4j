@@ -15,7 +15,7 @@
 
 JS.ns("JS.HTTPStatus","JS.XMLHttpRequest");
 <div id="prop-JS.Listener-HTTPStatus"></div>/**
- * FC 2616 HTTP1.1规范的HTTP Status状�?常量,详见
+ * FC 2616 HTTP1.1规范的HTTP Status状态常量,详见
  * http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10
  * @author jinghai.xiao@gmail.com
  */
@@ -78,7 +78,7 @@ JS.HTTPStatus.SERVERERROR = 500;
  * @class JS.XMLHttpRequest
  * @extends JS.Observable
  * 跨浏览器、事件驱动的XMLHTTPRequest对象，此对象完全兼容传统XMLHTTPRequest对象，在遵循
- * http://www.w3.org/TR/XMLHttpRequest/标准的前提下有所扩展�?
+ * http://www.w3.org/TR/XMLHttpRequest/标准的前提下有所扩展。
  * @author jinghai.xiao@gmail.com
  */
 JS.XMLHttpRequest = JS.extend(JS.Observable,{
@@ -89,7 +89,7 @@ JS.XMLHttpRequest = JS.extend(JS.Observable,{
 	enableCache : false,
 	<div id="cfg-JS.XMLHttpRequest-timeout"></div>/**
 	 * @cfg {Number} timeout 
-	 * 请求超时毫秒数，默认�?0000(30�?，设置为0则永不超�?
+	 * 请求超时毫秒数，默认为30000(30秒)，设置为0则永不超时
 	 */
 	timeout : 30000,//default never time out
 	<div id="prop-JS.XMLHttpRequest-isAbort"></div>/** 
@@ -100,7 +100,7 @@ JS.XMLHttpRequest = JS.extend(JS.Observable,{
 	isAbort : false,
 	<div id="cfg-JS.XMLHttpRequest-specialXHR"></div>/**
 	 * @cfg {String} specialXHR 
-	 * 指定�?��特定的ActiveX对象名称用于取代XMLHTTPRequest对象，默认为空�?
+	 * 指定一个特定的ActiveX对象名称用于取代XMLHTTPRequest对象，默认为空。
 	 */
 	specialXHR : '',//指定使用特殊的xhr对象
 	//propoty
@@ -189,7 +189,7 @@ JS.XMLHttpRequest = JS.extend(JS.Observable,{
 		if(this.timeout){
 			if(!this.timeoutTask){
 				this.timeoutTask = new JS.DelayedTask(function(){
-					//readyState=4已经停止，由doReadyStateChange来判断为何停�?
+					//readyState=4已经停止，由doReadyStateChange来判断为何停止
 					if(this._xhr.readyState != 4){
 						this.fireEvent('timeout', this, this._xhr);
 					}else{
@@ -360,7 +360,7 @@ JS.XMLHttpRequest = JS.extend(JS.Observable,{
 		return this._xhr.getAllResponseHeaders();
 	},
 	<div id="method-JS.XMLHttpRequest-setTimeout"></div>/**
-	 * 设置客户端超时时�?
+	 * 设置客户端超时时间
 	 * @method 
 	 */
 	setTimeout : function(t){

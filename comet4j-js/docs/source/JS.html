@@ -15,7 +15,7 @@
 
 <div id="cls-JS"></div>/**
  * @class JS 
- * JS命名空间以及�?��快捷方法引用
+ * JS命名空间以及一些快捷方法引用
  * @singleton 
  * @author jinghai.xiao@gmail.com
  */
@@ -360,8 +360,8 @@ JS.Syntax = {
 		return typeof v !== 'undefined';
 	},
 	 <div id="method-JS-toArray"></div>/**
-	 * 将任何可迭代(带有length属�?)的对象转换成Array对象
-	 * 不要用它转换字符�?IE doesn't support "abc"[0] which this implementation depends on.
+	 * 将任何可迭代(带有length属性)的对象转换成Array对象
+	 * 不要用它转换字符串.IE doesn't support "abc"[0] which this implementation depends on.
 	 * For strings, use this instead: "abc".match(/./g) => [a,b,c];
 	 * @param {Iterable} the iterable object to be turned into a true Array.
 	 * @return (Array) array
@@ -410,7 +410,7 @@ JS.DomEvent = {
     on: function(el, name, fun, scope){
         if (el.addEventListener) {
         	//el.addEventListener(name, fun, false);
-        	//TODO:若封闭成带有作用域的功能，如何删除事件，是否自己要记�?��on的函数，然后在un下删除它
+        	//TODO:若封闭成带有作用域的功能，如何删除事件，是否自己要记一下on的函数，然后在un下删除它
         	
 			el.addEventListener(name, function(){
 				JS.callBack(fun,scope,arguments);

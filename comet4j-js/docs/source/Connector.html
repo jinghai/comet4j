@@ -16,7 +16,7 @@
 <div id="cls-JS.Connector"></div>/**
  * @class JS.Connector
  * @extends JS.Observable
- * 连接�?负责建立并维持连接，接收服务器端推�?的数据�?
+ * 连接器,负责建立并维持连接，接收服务器端推送的数据。
  * @author jinghai.xiao@gmail.com
  */
 JS.ns("JS.Connector");
@@ -29,13 +29,13 @@ JS.Connector = JS.extend(JS.Observable,{
 	version : JS.version,
 	SYSCHANNEL:'c4j', //协议常量
 	<div id="prop-JS.Connector-LLOOPSTYLE"></div>/** 
-	 * 长轮询工作模式常�?
+	 * 长轮询工作模式常量
 	 * @property 
 	 * @type String
 	 */ 
 	LLOOPSTYLE : 'lpool',//协议常量
 	<div id="prop-JS.Connector-STREAMSTYLE"></div>/** 
-	 * 长连接工作模式常�?
+	 * 长连接工作模式常量
 	 * @property 
 	 * @type String
 	 */ 
@@ -54,17 +54,17 @@ JS.Connector = JS.extend(JS.Observable,{
 	currRetry : 0,
 	<div id="cfg-JS.Connector-url"></div>/**
 	 * @cfg {String} url 
-	 * 连接地址，若使用start方法中带有url，则此配置项将被覆盖�?
+	 * 连接地址，若使用start方法中带有url，则此配置项将被覆盖。
 	 */
 	url : '',
 	<div id="cfg-JS.Connector-param"></div>/**
 	 * @cfg {Object} param 
-	 * 连接参数，若使用start方法中带有param，则此配置项将被覆盖�?
+	 * 连接参数，若使用start方法中带有param，则此配置项将被覆盖。
 	 */
 	param : '',
 	<div id="cfg-JS.Connector-revivalDelay"></div>/**
 	 * @cfg {Object} revivalDelay
-	 * 复活请求延时毫秒�?默认�?00
+	 * 复活请求延时毫秒数,默认为100
 	 */
 	revivalDelay : 100,
     <div id="prop-JS.Connector-cId"></div>/** 
@@ -80,7 +80,7 @@ JS.Connector = JS.extend(JS.Observable,{
 	 */ 
 	channels : [],
 	<div id="prop-JS.Connector-workStyle"></div>/** 
-	 * 连接工作模式，连接后有效。�?为：LLOOPSTYLE或STREAMSTYLE
+	 * 连接工作模式，连接后有效。值为：LLOOPSTYLE或STREAMSTYLE
 	 * @property 
 	 * @type String
 	 */ 
@@ -89,7 +89,7 @@ JS.Connector = JS.extend(JS.Observable,{
 	runningError : '连接正在运行',
 	dataFormatError : '数据格式有误',
 	<div id="prop-JS.Connector-running"></div>/** 
-	 * 连接器是否处于运行状�?
+	 * 连接器是否处于运行状态
 	 * @property 
 	 * @type String
 	 */ 
@@ -102,16 +102,16 @@ JS.Connector = JS.extend(JS.Observable,{
 			<div id="event-JS.Connector-beforeConnect"></div>/**
 			 * @event beforeConnect 即将连接
 			 * @param {String} url 连接地址
-			 * @param {Connector} conn 连接�?
+			 * @param {Connector} conn 连接器
 			 */
 			'beforeConnect',
 			<div id="event-JS.Connector-connect"></div>/**
-			 * @event connect 已连�?
+			 * @event connect 已连接
 			 * @param {String} cId 连接ID
 			 * @param {Array} channels 通道列表
 			 * @param {String} workStyle 工作模式
 			 * @param {Number} timeout 连接超时时间
-			 * @param {Connector} conn 连接�?
+			 * @param {Connector} conn 连接器
 			 */
 			'connect',
 			<div id="event-JS.Connector-beforeStop"></div>/**
@@ -119,30 +119,30 @@ JS.Connector = JS.extend(JS.Observable,{
 			 * @param {String} cause 停止原因
 			 * @param {String} cId 连接ID
 			 * @param {String} url 连接地址
-			 * @param {Connector} conn 连接�?
+			 * @param {Connector} conn 连接器
 			 */
 			'beforeStop',
 			<div id="event-JS.Connector-stop"></div>/**
-			 * @event stop 已停�?
+			 * @event stop 已停止
 			 * @param {String} cause 停止原因
 			 * @param {String} cId 连接ID
 			 * @param {String} url 连接地址
-			 * @param {Connector} conn 连接�?
+			 * @param {Connector} conn 连接器
 			 */
 			'stop',
 			<div id="event-JS.Connector-message"></div>/**
-			 * @event message 接收到推送数�?
+			 * @event message 接收到推送数据
 			 * @param {String} channel 通道标识
 			 * @param {Object} data 数据对象
-			 * @param {Number} time 发�?时间，距1970-01-01 00:00:00毫秒�?
-			 * @param {Connector} conn 连接�?
+			 * @param {Number} time 发送时间，距1970-01-01 00:00:00毫秒数
+			 * @param {Connector} conn 连接器
 			 */
 			'message',
 			<div id="event-JS.Connector-revival"></div>/**
-			 * @event revival 请求复活，用于保持连接�?
+			 * @event revival 请求复活，用于保持连接。
 			 * @param {String} url 连接地址
 			 * @param {String} cId 连接ID
-			 * @param {Connector} conn 连接�?
+			 * @param {Connector} conn 连接器
 			 */
 			'revival'
 		]);
@@ -178,14 +178,14 @@ JS.Connector = JS.extend(JS.Observable,{
 			xhr = null;
 		}catch(e){};
 	},
-	//private distributed 派发服务器消�?
+	//private distributed 派发服务器消息
 	dispatchServerEvent : function(msg){
 		this.fireEvent('message', msg.channel, msg.data, msg.time, this);
 	},
-	//private 长连接信息转�?
+	//private 长连接信息转换
 	translateStreamData : function(responseText){
 		var str = responseText;
-		if(this.lastReceiveMessage && str){//剥离出接收到的数�?
+		if(this.lastReceiveMessage && str){//剥离出接收到的数据
 			str = str.split(this.lastReceiveMessage);
 			str = str.length ? str[str.length-1] : "";
 		}
@@ -229,10 +229,10 @@ JS.Connector = JS.extend(JS.Observable,{
 						if(json.channel == this.SYSCHANNEL){
 							this.revivalConnect();
 						}
-					}else{//非正常情况，状�?�?,200并且还没有收到任何数�?
+					}else{//非正常情况，状态为3,200并且还没有收到任何数据
 						this.currRetry++;
 						if(this.currRetry > this.retryCount){
-							this.stop('服务器异�?);
+							this.stop('服务器异常');
 						}else{
 							this.retryRevivalConnect();
 						}
@@ -249,10 +249,10 @@ JS.Connector = JS.extend(JS.Observable,{
 				this.currRetry = 0;
 				this.dispatchServerEvent(json);
 				this.revivalConnect();
-			}else{//非正常情况，状�?�?,200并且还没有收到任何数�?
+			}else{//非正常情况，状态为4,200并且还没有收到任何数据
 				this.currRetry++;
 				if(this.currRetry > this.retryCount){
-					this.stop('服务器异�?);
+					this.stop('服务器异常');
 				}else{
 					this.retryRevivalConnect();
 				}
@@ -263,7 +263,7 @@ JS.Connector = JS.extend(JS.Observable,{
 	doOnError : function(xhr){
 		this.currRetry++;
 		if(this.currRetry > this.retryCount){
-			this.stop('服务器异�?);
+			this.stop('服务器异常');
 		}else{
 			this.retryRevivalConnect();
 		}
@@ -283,7 +283,7 @@ JS.Connector = JS.extend(JS.Observable,{
 		if(this.running){
 			var connXhr = new JS.XMLHttpRequest();
 			connXhr.addListener('error',function(xhr){
-				this.stop("连接时发生错�?);
+				this.stop("连接时发生错误");
 			},this);
 			connXhr.addListener('timeout',function(xhr){
 				this.stop("连接超时");
@@ -349,7 +349,7 @@ JS.Connector = JS.extend(JS.Observable,{
 		
 	},
 	<div id="method-JS.Connector-start"></div>/**
-	 * �?��连接
+	 * 开始连接
 	 * @method 
 	 * @param {String} url 连接地址
 	 * @param {String|DOM} param 连接参数

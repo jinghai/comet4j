@@ -27,7 +27,7 @@ JS.AJAX = (function(){
 		dataFormatError : '服务器返回的数据格式有误',
 		urlError : '未指定url',
 		<div id="method-JS.AJAX-post"></div>/**
-		 * 以POST方式向服务器发�?请求，并得到服务返回的xhr对象�?br>
+		 * 以POST方式向服务器发送请求，并得到服务返回的xhr对象。<br>
 		 * <pre>如：JS.Ajax.post('/someurl.do','keyword=xxx',function(xhr){
 			alert(xhr.responseText);
 		   });</pre>
@@ -35,14 +35,14 @@ JS.AJAX = (function(){
 		 * @param {String} url 网址
 		 * @param {String|DOM} param 参数
 		 * @param {Function} callback 回调函数 function(xhr){alert(xhr.responseText)}
-		 * @param {Object} scope 作用�?
+		 * @param {Object} scope 作用域
 		 * @param {Boolean} asyn 是否异步调用，默认true
 		 */
 		post : function(url,param,callback,scope,asyn){
 			if(typeof url!=='string'){
 				throw new Error(this.urlError);
 			}
-			//默认为异步请�?
+			//默认为异步请求
 			var asynchronous = true;
 			if(asyn===false){
 				asynchronous = false;
@@ -61,7 +61,7 @@ JS.AJAX = (function(){
 			
 		},
 		<div id="method-JS.AJAX-get"></div>/**
-		 * 以GET方式向服务器发�?请求，并得到服务返回的xhr对象�?br>
+		 * 以GET方式向服务器发送请求，并得到服务返回的xhr对象。<br>
 		 * <pre>如：JS.Ajax.get('/someurl.do','keyword=xxx',function(xhr){
 			alert(xhr.responseText);
 		   });</pre>
@@ -69,14 +69,14 @@ JS.AJAX = (function(){
 		 * @param {String} url 网址
 		 * @param {String|DOM} param 参数
 		 * @param {Function} callback 回调函数 function(xhr){alert(xhr.responseText)}
-		 * @param {Object} scope 作用�?
+		 * @param {Object} scope 作用域
 		 * @param {Boolean} asyn 是否异步调用，默认true
 		 */
 		get : function(url,param,callback,scope,asyn){
 			if(typeof url!=='string'){
 				throw new Error(this.urlError);
 			}
-			//默认为异步请�?
+			//默认为异步请求
 			var asynchronous = true;
 			if(asyn===false){
 				asynchronous = false;
@@ -95,7 +95,7 @@ JS.AJAX = (function(){
 			
 		},
 		<div id="method-JS.AJAX-getText"></div>/**
-		 * 以GET方式向服务器发�?请求，并得到服务返回的文本信息�?<br>
+		 * 以GET方式向服务器发送请求，并得到服务返回的文本信息。<br>
 		 * <pre>如：JS.Ajax.getText('/someurl.do','keyword=xxx',function(text){
 			alert(text);
 		   });</pre>
@@ -103,7 +103,7 @@ JS.AJAX = (function(){
 		 * @param {String} url 网址
 		 * @param {String|DOM} param 参数
 		 * @param {Function} callback 回调函数 function(text){alert(text)}
-		 * @param {Object} asyn 作用�?
+		 * @param {Object} asyn 作用域
 		 * @param {Boolean} asyn 是否异步调用，默认true
 		 */
 		getText : function(url,jsonData,callback,scope,asyn){
@@ -116,7 +116,7 @@ JS.AJAX = (function(){
 			},this,asyn);
 		},
 		<div id="method-JS.AJAX-getJson"></div>/**
-		 * 以GET方式向服务器发�?请求，并得到服务返回的JSON对象�?br>
+		 * 以GET方式向服务器发送请求，并得到服务返回的JSON对象。<br>
 		 * <pre>如：JS.Ajax.getJson('/someurl.do','keyword=xxx',function(obj){
 			alert(obj.someField);
 		   });</pre>
@@ -124,7 +124,7 @@ JS.AJAX = (function(){
 		 * @param {String} url 网址
 		 * @param {String|DOM} param 参数
 		 * @param {Function} callback 回调函数 function(obj){alert(alert(obj.someField);)}
-		 * @param {Object} scope 作用�?
+		 * @param {Object} scope 作用域
 		 * @param {Boolean} asyn 是否异步调用，默认true
 		 */
 		getJson : function(url,jsonData,callback,scope,asyn){

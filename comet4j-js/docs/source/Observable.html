@@ -35,7 +35,8 @@ JS.Observable.prototype = {
 	 * @method 
 	 * @param {String | Map<String|Function>} channelName 事件名称或多个事件名称和侦听函数的键值对
 	 * @param {Function} fn 侦听函数
-	 * @param {Object} scope 侦听函数作用�?	 */
+	 * @param {Object} scope 侦听函数作用域
+	 */
 	on : function(eventName, fn, scope, o){
 		if(JS.isString(eventName)){
 			this.addListener(eventName, fn, scope, o);
@@ -47,7 +48,8 @@ JS.Observable.prototype = {
 	 * 触发事件
 	 * @method 
 	 * @param {String} eventName 事件名称
-	 * @param {[AnyType0~n...]} eventParam 事件参数，可以是0到N�?	 * @return {Boolean}
+	 * @param {[AnyType0~n...]} eventParam 事件参数，可以是0到N个
+	 * @return {Boolean}
 	 */
 	fireEvent : function(){
 		var arg = JS.toArray(arguments),
@@ -92,8 +94,10 @@ JS.Observable.prototype = {
 	 * @method 
 	 * @param {String} eventName 事件名称
 	 * @param {Function} fn 侦听函数
-	 * @param {Object} scope 侦听函数作用�?	 */
-	addListener : function(eventName, fn, scope, o){//o配置项尚未实�?		eventName = eventName.toLowerCase();
+	 * @param {Object} scope 侦听函数作用域
+	 */
+	addListener : function(eventName, fn, scope, o){//o配置项尚未实现
+		eventName = eventName.toLowerCase();
 		this.addEvent(eventName);
 		var e = this.events[eventName];
 		if(e){
@@ -106,8 +110,10 @@ JS.Observable.prototype = {
 	<div id="method-JS.Observable-addListeners"></div>/**
 	 * 批量注册事件侦听
 	 * @method 
-	 * @param {Map<String,Function>} eventMap 事件名称与侦听函数的键�?�?	 * @param {Function} fn 侦听函数
-	 * @param {Object} scope 侦听函数作用�?	 */
+	 * @param {Map<String,Function>} eventMap 事件名称与侦听函数的键值对
+	 * @param {Function} fn 侦听函数
+	 * @param {Object} scope 侦听函数作用域
+	 */
 	addListeners : function(obj,scope, o){
 		if(JS.isObject(obj)){
 			for(var p in obj){
@@ -120,7 +126,8 @@ JS.Observable.prototype = {
 	 * @method 
 	 * @param {String} eventName 事件名称
 	 * @param {Function} fn 侦听函数
-	 * @param {Object} scope 侦听函数作用�?	 */
+	 * @param {Object} scope 侦听函数作用域
+	 */
 	removeListener : function(eventName, fn, scope){
 		eventName = eventName.toLowerCase();
 		var e = this.events[eventName];
@@ -129,7 +136,7 @@ JS.Observable.prototype = {
 		}
 	},
 	<div id="method-JS.Observable-clearListeners"></div>/**
-	 * 移除�?��事件侦听
+	 * 移除所有事件侦听
 	 * @method 
 	 */
 	clearListeners : function(){
@@ -143,7 +150,8 @@ JS.Observable.prototype = {
 		}
 	},
 	<div id="method-JS.Observable-clearEvents"></div>/**
-	 * 移除�?��事件类型及事件侦�?	 * @method 
+	 * 移除所有事件类型及事件侦听
+	 * @method 
 	 */
 	clearEvents : function(){
 		var events = this.events;
@@ -184,17 +192,20 @@ JS.Observable.prototype = {
 		}
 	},
 	<div id="method-JS.Observable-hasEvent"></div>/**
-	 * �?��是否具有指定的事件类�?	 * @method 
+	 * 检测是否具有指定的事件类型
+	 * @method 
 	 * @param {String} 事件类型名称
 	 */
 	hasEvent : function(eventName){
 		return this.events[eventName.toLowerCase()]?true:false;
 	},
 	<div id="method-JS.Observable-hasListener"></div>/**
-	 * �?��是否具有指定的事件侦�?	 * @method 
+	 * 检测是否具有指定的事件侦听
+	 * @method 
 	 * @param {String} 事件类型名称
 	 * @param {Function} fn 侦听函数
-	 * @param {Object} scope 侦听函数作用�?	 */
+	 * @param {Object} scope 侦听函数作用域
+	 */
 	hasListener : function(eventName,fn,scope){
 		var events = this.events,
 			e = events[eventName];
@@ -211,7 +222,8 @@ JS.Observable.prototype = {
 	}
 };
 <div id="cls-JS.Event"></div>/**
- * 事件源，代表�?��事件，负责管理事件侦�? * @class JS.Event
+ * 事件源，代表一类事件，负责管理事件侦听
+ * @class JS.Event
  * @author jinghai.xiao@gmail.com
  */
 JS.Event = function(name,caller){
@@ -292,7 +304,7 @@ JS.Event.prototype = {
 
 };
 <div id="cls-JS.Listener"></div>/**
- * 事件侦听器，包装并统�?��听的调用方式
+ * 事件侦听器，包装并统一侦听的调用方式
  * @class JS.Listener
  * @author jinghai.xiao@gmail.com
  */
